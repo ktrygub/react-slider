@@ -28,7 +28,7 @@ class Slider extends React.Component {
 
   setCurrentSlideByID = id => this.setState({ currentSlideIndex: id })
 
-  startTimer = () => setTimeout(this.gotoNextSlide, 2000)
+  startTimer = () => setTimeout(this.gotoNextSlide, 5000)
 
   stopTimer = timer => clearTimeout(timer)
 
