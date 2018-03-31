@@ -11,7 +11,17 @@ import mockData from '../mockData'
 class Slider extends React.Component {
   state = {
     currentSlideIndex: 0,
-    slides: mockData.slider
+    slides: mockData.slider,
+    timer: null
+  }
+
+  componentWillMount() {
+    const timer = this.startTimer()
+    this.setState({ timer })
+  }
+
+  componentWillUnmount() {
+    this.stopTimer(this.state.timer)
   }
 
   getPrevSlideIndex = () => {
@@ -28,7 +38,11 @@ class Slider extends React.Component {
 
   setCurrentSlideByID = id => this.setState({ currentSlideIndex: id })
 
-  startTimer = () => setTimeout(this.gotoNextSlide, 5000)
+  startTimer = () =>
+    setTimeout(() => {
+      this.gotoNextSlide()
+      this.setState({ timer: this.startTimer() })
+    }, 5000)
 
   stopTimer = timer => clearTimeout(timer)
 
@@ -43,7 +57,7 @@ class Slider extends React.Component {
     })
 
   render() {
-    let timer = this.startTimer()
+    const { timer } = this.state
     const currentSlide = this.state.slides[this.state.currentSlideIndex]
     const prevSlide = this.state.slides[this.getPrevSlideIndex()]
     const nextSlide = this.state.slides[this.getNextSlideIndex()]
@@ -53,14 +67,7 @@ class Slider extends React.Component {
         className="slider"
         onFocus={() => this.stopTimer(timer)}
         onMouseOver={() => this.stopTimer(timer)}
-        onBlur={() => {
-          this.stopTimer(timer)
-          timer = this.startTimer()
-        }}
-        onMouseLeave={() => {
-          this.stopTimer(timer)
-          timer = this.startTimer()
-        }}
+        onMouseLeave={() => this.setState({ timer: this.startTimer() })}
       >
         <Grid id="slider--grid" padded stretched>
           <Grid.Row>
@@ -68,6 +75,7 @@ class Slider extends React.Component {
               id="slide__transparent"
               width={5}
               verticalAlign="middle"
+              onClick={() => this.gotoPrevSlide()}
             >
               <Slide {...prevSlide} />
             </Grid.Column>
@@ -75,27 +83,14 @@ class Slider extends React.Component {
             <Grid.Column width={6} verticalAlign="middle">
               <Slide {...currentSlide} />
 
-              <PrevSlideButton
-                onClick={() => {
-                  this.stopTimer(timer)
-                  this.gotoPrevSlide()
-                }}
-              />
+              <PrevSlideButton onClick={() => this.gotoPrevSlide()} />
 
-              <NextSlideButton
-                onClick={() => {
-                  this.stopTimer(timer)
-                  this.gotoNextSlide()
-                }}
-              />
+              <NextSlideButton onClick={() => this.gotoNextSlide()} />
 
               <DotsPanel
                 currentIndex={this.state.currentSlideIndex}
                 total={this.state.slides.length}
-                onDotClick={id => {
-                  this.stopTimer(timer)
-                  this.setCurrentSlideByID(id)
-                }}
+                onDotClick={id => this.setCurrentSlideByID(id)}
               />
             </Grid.Column>
 
@@ -103,6 +98,7 @@ class Slider extends React.Component {
               id="slide__transparent"
               width={5}
               verticalAlign="middle"
+              onClick={() => this.gotoNextSlide()}
             >
               <Slide {...nextSlide} />
             </Grid.Column>
