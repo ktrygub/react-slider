@@ -40,6 +40,10 @@
   opacity: 0.5;
 }
 
+#slide__hoverable {
+  padding: 0;
+}
+
 .ui.grid > .row {
   padding-top: 0;
   padding-bottom: 0;

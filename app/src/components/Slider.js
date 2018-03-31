@@ -63,12 +63,7 @@ class Slider extends React.Component {
     const nextSlide = this.state.slides[this.getNextSlideIndex()]
 
     return (
-      <Container
-        className="slider"
-        onFocus={() => this.stopTimer(timer)}
-        onMouseOver={() => this.stopTimer(timer)}
-        onMouseLeave={() => this.setState({ timer: this.startTimer() })}
-      >
+      <Container className="slider">
         <Grid id="slider--grid" padded stretched>
           <Grid.Row>
             <Grid.Column
@@ -80,7 +75,14 @@ class Slider extends React.Component {
               <Slide {...prevSlide} />
             </Grid.Column>
 
-            <Grid.Column width={6} verticalAlign="middle">
+            <Grid.Column
+              id="slide__hoverable"
+              width={6}
+              verticalAlign="middle"
+              onFocus={() => this.stopTimer(timer)}
+              onMouseOver={() => this.stopTimer(timer)}
+              onMouseLeave={() => this.setState({ timer: this.startTimer() })}
+            >
               <Slide {...currentSlide} />
 
               <PrevSlideButton onClick={() => this.gotoPrevSlide()} />
