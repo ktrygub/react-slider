@@ -2,8 +2,7 @@ import React from 'react'
 import { Container, Grid } from 'semantic-ui-react'
 
 import Slide from './Slide'
-import PrevSlideButton from './PrevSlideButton'
-import NextSlideButton from './NextSlideButton'
+import ArrowButton from './ArrowButton'
 import DotsPanel from './DotsPanel'
 
 import mockData from '../mockData'
@@ -57,10 +56,10 @@ class Slider extends React.Component {
     })
 
   render() {
-    const { timer } = this.state
-    const currentSlide = this.state.slides[this.state.currentSlideIndex]
-    const prevSlide = this.state.slides[this.getPrevSlideIndex()]
-    const nextSlide = this.state.slides[this.getNextSlideIndex()]
+    const { timer, currentSlideIndex, slides } = this.state
+    const currentSlide = slides[currentSlideIndex]
+    const prevSlide = slides[this.getPrevSlideIndex()]
+    const nextSlide = slides[this.getNextSlideIndex()]
 
     return (
       <Container className="slider">
@@ -85,13 +84,19 @@ class Slider extends React.Component {
             >
               <Slide {...currentSlide} />
 
-              <PrevSlideButton onClick={() => this.gotoPrevSlide()} />
+              <ArrowButton
+                type="prev-button"
+                onClick={() => this.gotoPrevSlide()}
+              />
 
-              <NextSlideButton onClick={() => this.gotoNextSlide()} />
+              <ArrowButton
+                type="next-button"
+                onClick={() => this.gotoNextSlide()}
+              />
 
               <DotsPanel
-                currentIndex={this.state.currentSlideIndex}
-                total={this.state.slides.length}
+                currentIndex={currentSlideIndex}
+                total={slides.length}
                 onDotClick={id => this.setCurrentSlideByID(id)}
               />
             </Grid.Column>

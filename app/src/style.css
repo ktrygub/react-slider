@@ -59,24 +59,24 @@
   padding-bottom: 0;
 }
 
-.right-arrow,
-.left-arrow {
+.next-button,
+.prev-button {
   border: black solid 1px;
 }
 
-.right-arrow:hover,
-.left-arrow:hover {
+.next-button:hover,
+.prev-button:hover {
   transition: transform ease-in 0.1s;
   transform: scale(1.1);
 }
 
-.right-arrow {
+.next-button {
   position: absolute;
   top: 50%;
   right: 5%;
 }
 
-.left-arrow {
+.prev-button {
   position: absolute;
   top: 50%;
   left: 5.5%;
