@@ -24,14 +24,14 @@ class Slider extends React.Component {
   }
 
   getPrevSlideIndex = () => {
-    const { currentSlideIndex } = this.state
-    const finalSlideIndex = this.state.slides.length - 1
+    const { currentSlideIndex, slides } = this.state
+    const finalSlideIndex = slides.length - 1
     return currentSlideIndex === 0 ? finalSlideIndex : currentSlideIndex - 1
   }
 
   getNextSlideIndex = () => {
-    const { currentSlideIndex } = this.state
-    const finalSlideIndex = this.state.slides.length - 1
+    const { currentSlideIndex, slides } = this.state
+    const finalSlideIndex = slides.length - 1
     return currentSlideIndex === finalSlideIndex ? 0 : currentSlideIndex + 1
   }
 
