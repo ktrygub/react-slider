@@ -1,7 +1,7 @@
 .slider {
-  margin-top: 10px;
+  /* width: 100%;
   position: relative;
-  display: inline-block;
+  display: inline-block; */
   text-align: center;
 }
 
@@ -9,6 +9,8 @@
   border: black solid 1px;
   padding: 20px 0px;
   background-image: url('http://backgroundcheckall.com/wp-content/uploads/2017/12/background-image-slider-9.jpg');
+  text-align: center;
+  justify-content: space-around;
 }
 
 #slide--grid {
@@ -28,7 +30,9 @@
 }
 
 #slide--text {
-  max-height: 35px;
+  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #slide--hero {
@@ -37,20 +41,19 @@
   background-size: cover;
 }
 
-#slide__transparent {
+.slide__transparent {
   opacity: 0.5;
 }
 
-#slide__hoverable {
+.slide__hoverable {
   transition: transform 0.2s ease-in;
-  padding: 0;
 }
 
-#slide__hoverable:hover {
+.slide__hoverable:hover {
   transform: scale(1.04);
 }
 
-#slide__hoverable:hover #slide--grid {
+.slide__hoverable:hover #slide--grid {
   border-color: #2980b9;
 }
 

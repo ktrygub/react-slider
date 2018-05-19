@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Grid } from 'semantic-ui-react'
 
-import Slide from './Slide'
+import Slide from './Slide/Slide'
 import ArrowButton from './ArrowButton'
 import DotsPanel from './DotsPanel'
 
@@ -23,17 +23,25 @@ class Slider extends React.Component {
     this.stopTimer(this.state.timer)
   }
 
-  getPrevSlideIndex = () => {
+  getNthSlideFromCurrent = n => {
     const { currentSlideIndex, slides } = this.state
-    const finalSlideIndex = slides.length - 1
-    return currentSlideIndex === 0 ? finalSlideIndex : currentSlideIndex - 1
+    const newIndex = currentSlideIndex + n
+    const mod = slides.length
+    // Using (a % b) + b) % b to solve so-called "Javascript negative numbers modulus bug"
+    return (newIndex % mod + mod) % mod
   }
 
-  getNextSlideIndex = () => {
-    const { currentSlideIndex, slides } = this.state
-    const finalSlideIndex = slides.length - 1
-    return currentSlideIndex === finalSlideIndex ? 0 : currentSlideIndex + 1
-  }
+  // getPrevSlideIndex = () => {
+  //   const { currentSlideIndex, slides } = this.state
+  //   const finalSlideIndex = slides.length - 1
+  //   return currentSlideIndex === 0 ? finalSlideIndex : currentSlideIndex - 1
+  // }
+
+  // getNextSlideIndex = () => {
+  //   const { currentSlideIndex, slides } = this.state
+  //   const finalSlideIndex = slides.length - 1
+  //   return currentSlideIndex === finalSlideIndex ? 0 : currentSlideIndex + 1
+  // }
 
   setCurrentSlideByID = id => this.setState({ currentSlideIndex: id })
 
@@ -45,38 +53,46 @@ class Slider extends React.Component {
 
   stopTimer = timer => clearTimeout(timer)
 
-  gotoPrevSlide = () =>
+  gotoNthSlideFromCurrent = n =>
     this.setState({
-      currentSlideIndex: this.getPrevSlideIndex()
+      currentSlideIndex: this.getNthSlideFromCurrent(n)
     })
 
-  gotoNextSlide = () =>
-    this.setState({
-      currentSlideIndex: this.getNextSlideIndex()
-    })
+  gotoPrevSlide = () => this.gotoNthSlideFromCurrent(-1)
+
+  gotoNextSlide = () => this.gotoNthSlideFromCurrent(1)
 
   render() {
     const { timer, currentSlideIndex, slides } = this.state
     const currentSlide = slides[currentSlideIndex]
-    const prevSlide = slides[this.getPrevSlideIndex()]
-    const nextSlide = slides[this.getNextSlideIndex()]
+    // const prevSlide = slides[this.getNthSlideFromCurrent(-1)]
+    // const nextSlide = slides[this.getNthSlideFromCurrent(1)]
 
     return (
-      <Container className="slider">
+      <Container fluid>
         <Grid id="slider--grid" padded stretched>
           <Grid.Row>
             <Grid.Column
-              id="slide__transparent"
-              width={5}
+              className="slide__transparent slide__hoverable"
+              width={3}
               verticalAlign="middle"
-              onClick={() => this.gotoPrevSlide()}
+              onClick={() => this.gotoNthSlideFromCurrent(-2)}
             >
-              <Slide {...prevSlide} />
+              <Slide {...slides[this.getNthSlideFromCurrent(-2)]} />
             </Grid.Column>
 
             <Grid.Column
-              id="slide__hoverable"
-              width={6}
+              className="slide__transparent slide__hoverable"
+              width={3}
+              verticalAlign="middle"
+              onClick={() => this.gotoNthSlideFromCurrent(-1)}
+            >
+              <Slide {...slides[this.getNthSlideFromCurrent(-1)]} />
+            </Grid.Column>
+
+            <Grid.Column
+              className="slide__hoverable"
+              width={4}
               verticalAlign="middle"
               onFocus={() => this.stopTimer(timer)}
               onMouseOver={() => this.stopTimer(timer)}
@@ -86,12 +102,12 @@ class Slider extends React.Component {
 
               <ArrowButton
                 type="prev-button"
-                onClick={() => this.gotoPrevSlide()}
+                onClick={() => this.gotoNthSlideFromCurrent(-1)}
               />
 
               <ArrowButton
                 type="next-button"
-                onClick={() => this.gotoNextSlide()}
+                onClick={() => this.gotoNthSlideFromCurrent(1)}
               />
 
               <DotsPanel
@@ -102,12 +118,21 @@ class Slider extends React.Component {
             </Grid.Column>
 
             <Grid.Column
-              id="slide__transparent"
-              width={5}
+              className="slide__transparent slide__hoverable"
+              width={3}
               verticalAlign="middle"
-              onClick={() => this.gotoNextSlide()}
+              onClick={() => this.gotoNthSlideFromCurrent(1)}
             >
-              <Slide {...nextSlide} />
+              <Slide {...slides[this.getNthSlideFromCurrent(1)]} />
+            </Grid.Column>
+
+            <Grid.Column
+              className="slide__transparent slide__hoverable"
+              width={3}
+              verticalAlign="middle"
+              onClick={() => this.gotoNthSlideFromCurrent(2)}
+            >
+              <Slide {...slides[this.getNthSlideFromCurrent(2)]} />
             </Grid.Column>
           </Grid.Row>
         </Grid>
