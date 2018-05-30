@@ -31,8 +31,8 @@
 
 #slide--text {
   white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #slide--hero {
@@ -46,7 +46,7 @@
 }
 
 .slide__hoverable {
-  transition: transform 0.2s ease-in;
+  transition: transform 0.2s ease-in, opacity 0.2s ease-in;
 }
 
 .slide__hoverable:hover {
